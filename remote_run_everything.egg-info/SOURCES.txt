@@ -1,0 +1,10 @@
+README.md
+setup.py
+remote_run_everything/__init__.py
+remote_run_everything/conf.py
+remote_run_everything/local.py
+remote_run_everything/remote.py
+remote_run_everything.egg-info/PKG-INFO
+remote_run_everything.egg-info/SOURCES.txt
+remote_run_everything.egg-info/dependency_links.txt
+remote_run_everything.egg-info/top_level.txt

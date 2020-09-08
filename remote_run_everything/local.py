@@ -16,10 +16,7 @@ class Local:
                 res.append(e.replace("\\", "/"))
         return res
     
-    def linux_remote_2_win_loc(self, e):
-        trans = e.replace(self.c.remote_root, self.c.local_root)
-        print(trans)
-        return res
+    
     
     def upload(self,dir):
         files = self.get_local(dir)
@@ -40,12 +37,7 @@ class Local:
             if not relative_loc.startswith("/"):
                 relative_loc= "/" + relative_loc
             lf = self.c.local_root + relative_loc
-            print(rf, lf)
             self.r.download(lf,rf)
         return "success"
 
 
-if __name__ == '__main__':
-    l = Local()
-    res = l.download_root()
-    print(res)

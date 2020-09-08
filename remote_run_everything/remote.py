@@ -6,10 +6,10 @@ class Remote:
         self.c=conf
         self.shell = pysftp.Connection(self.c.host, username=self.c.user, password=self.c.pwd)
     def __del__(self):
-        self.shell.close()
+        if self.shell!=None:
+            self.shell.close()
 
     def upload(self, local_f, remote_f):
-        print (local_f,remote_f)
         remote_dir = os.path.dirname(remote_f)
         self.shell.makedirs(remote_dir, mode=777)
         self.shell.put(local_f, remote_f)
@@ -36,15 +36,9 @@ class Remote:
         common_cmds = ["/usr/bin/bash -c", f"cd {self.c.remote_root}"]
         all=common_cmds+cmds
         cmd=";".join(all)
-        print (cmd)
         res = self.shell.execute(cmd)
         print("***********************")
         for i in res:
             print(i.decode("utf-8"))
 
 
-if __name__ == '__main__':
-    c=Conf()
-    r = Remote(c)
-    r.cmd(['cargo run'])
-    # res=r.get_remote()

@@ -41,3 +41,11 @@ test()
 
 ```
 
+##  此外，__scripts__文件夹下含有python运维管理脚本，运行就会把__scripts__下所有运维脚本上传到远程根目录，然后运行相应的cmd命令即可。目前的脚本主要是杀进程的，根据关键字杀进程，根据端口号杀进程，未来会不断拓展。详细参见__scripts__目录脚本写法.
+
+```
+l = Local(c)
+l.upload_scripts()
+r.cmd(['python kill_ss.py 8088'])
+r.cmd(['python kill_ps.py keyword1 keyword2'])
+```

@@ -19,8 +19,6 @@ def kill(keyws):
             pid = int(line.split()[1])
             os.kill(pid, signal.SIGKILL)
             print ("kill success")
-            return
-    print ("not killed")
     return
 
 if __name__ == '__main__':

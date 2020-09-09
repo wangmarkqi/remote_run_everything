@@ -46,6 +46,16 @@ test()
 ```
 l = Local(c)
 l.upload_scripts()
-r.cmd(['python kill_ss.py 8088'])
-r.cmd(['python kill_ps.py keyword1 keyword2'])
+
+# 杀掉端口号8088的所有进程（gunicorn针对一个端口多个进程，全杀）
+r.cmd(['cd __scripts__', 'python kill_ss.py 8088'])
+
+# 杀掉包含关键词的所有进程（gunicorn多个进程，全杀）
+r.cmd(['cd __scripts__','python kill_ps.py keyword1 keyword2'])
+
+# 将mongodb数据库1,2下所有数据备份到远程根目录mongoback目录下，数据库名称是子目录名称
+r.cmd(['cd __scripts__','python mongo_dump_restore.py dump mongodb://localhost:27017 db1 db2'])
+
+# 将mongodb数据库1,2下所有数据恢复
+r.cmd(['cd __scripts__','python mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
 ```

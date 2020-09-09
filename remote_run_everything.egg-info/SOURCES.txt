@@ -1,3 +1,4 @@
+MANIFEST.in
 README.md
 setup.py
 remote_run_everything/__init__.py
@@ -8,3 +9,6 @@ remote_run_everything.egg-info/PKG-INFO
 remote_run_everything.egg-info/SOURCES.txt
 remote_run_everything.egg-info/dependency_links.txt
 remote_run_everything.egg-info/top_level.txt
+remote_run_everything/__scripts__/kill_ps.py
+remote_run_everything/__scripts__/kill_ss.py
+remote_run_everything/__scripts__/mongo_dump_restore.py

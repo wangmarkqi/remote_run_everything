@@ -50,8 +50,9 @@ class Local:
         files = os.listdir(script_dir)
         data = []
         for f in files:
-            lf = os.path.join(script_dir, f)
-            rf = remote_script_dir + f
-            data.append((lf, rf))
+            if os.path.isfile(f):
+                lf = os.path.join(script_dir, f)
+                rf = remote_script_dir + f
+                data.append((lf, rf))
         r.upload(data)
         return "success"

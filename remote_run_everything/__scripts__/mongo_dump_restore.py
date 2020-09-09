@@ -18,7 +18,7 @@ class MongoTool:
     def dump(self):
         for d in self.dbs:
             db = self.cli[d]
-            dir = self.root + d
+            dir = os.path.join(self.root, d)
             os.makedirs(dir, exist_ok=True)
             cols = db.list_collection_names()
             for col in cols:
@@ -31,7 +31,7 @@ class MongoTool:
     def restore(self):
         for d in self.dbs:
             db = self.cli[d]
-            dir = self.root + d
+            dir = os.path.join(self.root, d)
             files = os.listdir(dir)
             cols = [i.split('.')[0] for i in files]
             print(cols)
@@ -42,9 +42,10 @@ class MongoTool:
                     data = decode_all(f.read())
                     col.insert_many(data)
 if __name__ == '__main__':
+    # mongodb://localhost:27017
     which =sys.argv[1]
     url=sys.argv[2]
-    dbs=sys.argv[2:]
+    dbs=sys.argv[3:]
     m = MongoTool(url,dbs)
     if which=="dump":
         m.dump()

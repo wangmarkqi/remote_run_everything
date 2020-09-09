@@ -44,7 +44,8 @@ class Local:
     
     def upload_scripts(self):
         r = Remote(self.c)
-        script_dir = os.path.join(os.path.dirname(__file__), '__scripts__')
+        cur_dir=os.path.dirname(__file__)
+        script_dir = os.path.join(cur_dir, '__scripts__')
         remote_script_dir = self.c.remote_root + "/__scripts__/"
         files = os.listdir(script_dir)
         data = []

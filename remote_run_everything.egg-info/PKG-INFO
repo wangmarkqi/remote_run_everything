@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: remote-run-everything
-Version: 0.4
+Version: 0.5
 Summary: 远程上传、调试、下载任何语言
 Home-page: https://github.com/wangmarkqi/remote_run_everything
 Author: Wang Qi
@@ -49,6 +49,14 @@ Description: # remote_run_everthing统一解决各种语言远程调试
         
         ```
         
+        ##  此外，__scripts__文件夹下含有python运维管理脚本，运行就会把__scripts__下所有运维脚本上传到远程根目录，然后运行相应的cmd命令即可。目前的脚本主要是杀进程的，根据关键字杀进程，根据端口号杀进程，未来会不断拓展。详细参见__scripts__目录脚本写法.
+        
+        ```
+        l = Local(c)
+        l.upload_scripts()
+        r.cmd(['python kill_ss.py 8088'])
+        r.cmd(['python kill_ps.py keyword1 keyword2'])
+        ```
         
 Keywords: remote,debug,development tool
 Platform: UNKNOWN

@@ -6,7 +6,7 @@ with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
     long_description = f.read()
 setuptools.setup(
     name='remote_run_everything',
-    version='0.04',
+    version='0.06',
     description='远程上传、调试、下载任何语言',
     long_description=long_description,
     long_description_content_type='text/markdown',

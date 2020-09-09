@@ -23,7 +23,6 @@ def test():
         remote_root="/mnt/myrust/ssl",
         local_root="D://myrust/ssl",
     )
-    r = Remote(c)
     l = Local(c)
     
     # step1:代码文件同步：这个命令会把local_root下的子文件夹递归复制到remote_root对应的子文件夹,虚拟机共享文件夹不需要本步骤
@@ -46,9 +45,20 @@ test()
 此外，__scripts__文件夹下含有python运维管理脚本，运行就会把__scripts__下所有运维脚本上传到远程根目录，然后运行相应的cmd命令即可。目前的脚本主要是杀进程的，根据关键字杀进程，根据端口号杀进程，未来会不断拓展。详细参见__scripts__目录脚本写法.
 
 ```
+c = Conf(
+    host="192.168.177.130",
+    user="root",
+    pwd="a",
+    remote_root="/mnt/myrust/ssl",
+    local_root="D://myrust/ssl",
+)
 l = Local(c)
+r = Remote(c)
+#把__scripts__下所有运维脚本上传到远程根目录
 l.upload_scripts()
-
+```
+- 杀进程
+```
 # 杀掉端口号8088的所有进程（gunicorn针对一个端口多个进程，全杀）
 r.cmd(['cd __scripts__', 'python kill_ss.py 8088'])
 
@@ -58,6 +68,17 @@ r.cmd(['cd __scripts__','python kill_ps.py keyword1 keyword2'])
 # 将mongodb数据库1,2下所有数据备份到远程根目录mongoback目录下，数据库名称是子目录名称
 r.cmd(['cd __scripts__','python mongo_dump_restore.py dump mongodb://localhost:27017 db1 db2'])
 
+```
+
+- 芒果db备份恢复
+```
 # 将mongodb数据库1,2下所有数据恢复
 r.cmd(['cd __scripts__','python mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
+
+```
+
+- gunicorn 重启server
+```
+start=['source /home/anaconda3/bin/activate server',"gunicorn riskMis:app -w 4 -k uvicorn.workers.UvicornWorker -b 0.0.0.0:8887 --daemon"]
+r.cmd(start)
 ```

@@ -9,7 +9,6 @@ class Remote:
             for i in data:
                 remote_dir = os.path.dirname(i[1])
                 shell.makedirs(remote_dir, mode=777)
-                print(i[0], "------------>", i[1])
                 shell.put(i[0], i[1])
     
     def download(self, data):
@@ -17,7 +16,6 @@ class Remote:
             for i in data:
                 local_dir = os.path.dirname(i[0])
                 os.makedirs(local_dir, exist_ok=True, mode=777)
-                print(i[0], "<------------", i[1])
                 shell.get(i[1], i[0])
     
     def get_remote(self,dir):

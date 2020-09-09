@@ -77,7 +77,7 @@ r.cmd(['source /home/anaconda3/bin/activate server',
 l.download(c.remote_root+"/mongo_backup")
 
 # 将mongodb数据库1,2下所有数据恢复
-r.cmd(['cd __scripts__','python mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
+r.cmd(['source /home/anaconda3/bin/activate server','python ./__scripts__/mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
 
 ```
 

@@ -64,14 +64,18 @@ r.cmd(['cd __scripts__', 'python kill_ss.py 8088'])
 
 # 杀掉包含关键词的所有进程（gunicorn多个进程，全杀）
 r.cmd(['cd __scripts__','python kill_ps.py keyword1 keyword2'])
-
-# 将mongodb数据库1,2下所有数据备份到远程根目录mongoback目录下，数据库名称是子目录名称
-r.cmd(['cd __scripts__','python mongo_dump_restore.py dump mongodb://localhost:27017 db1 db2'])
-
 ```
 
 - 芒果db备份恢复
 ```
+# 将mongodb数据库1,2下所有数据备份到远程根目录mongoback目录下，数据库名称是子目录名称
+r.cmd(['source /home/anaconda3/bin/activate server',
+      'python ./__scripts__/mongo_dump_restore.py dump mongodb://localhost:27017 mpy ruihe'
+      ])
+
+# 将备份文件拉回本地
+l.download(c.remote_root+"/mongo_backup")
+
 # 将mongodb数据库1,2下所有数据恢复
 r.cmd(['cd __scripts__','python mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
 

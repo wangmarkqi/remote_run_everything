@@ -26,8 +26,12 @@ def test():
     l = Local(c)
     
     # step1:代码文件同步：这个命令会把local_root下的子文件夹递归复制到remote_root对应的子文件夹,虚拟机共享文件夹不需要本步骤
+    l.upload(c.local_root+"/src",exclude="node_modules")
+    #or
+    l.upload(c.local_root+"/src",exclude=["node_modules"])
+    #or
     l.upload(c.local_root+"/src")
-    
+
     # step2: 命令行：这个命令会在远程环境remot_root文件夹中执行cargo run，并把输出结果打印在屏幕。多个命令以列表形式传递
     # r.cmd(['cargo run'])
     

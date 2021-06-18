@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: remote-run-everything
-Version: 0.9
+Version: 1.1
 Summary: 远程上传、调试、下载任何语言
 Home-page: https://github.com/wangmarkqi/remote_run_everything
 Author: Wang Qi
@@ -34,8 +34,12 @@ Description: # remote_run_everthing统一解决各种语言远程调试
             l = Local(c)
             
             # step1:代码文件同步：这个命令会把local_root下的子文件夹递归复制到remote_root对应的子文件夹,虚拟机共享文件夹不需要本步骤
+            l.upload(c.local_root+"/src",exclude="node_modules")
+            #or
+            l.upload(c.local_root+"/src",exclude=["node_modules"])
+            #or
             l.upload(c.local_root+"/src")
-            
+        
             # step2: 命令行：这个命令会在远程环境remot_root文件夹中执行cargo run，并把输出结果打印在屏幕。多个命令以列表形式传递
             # r.cmd(['cargo run'])
             
@@ -72,16 +76,20 @@ Description: # remote_run_everthing统一解决各种语言远程调试
         
         # 杀掉包含关键词的所有进程（gunicorn多个进程，全杀）
         r.cmd(['cd __scripts__','python kill_ps.py keyword1 keyword2'])
-        
-        # 将mongodb数据库1,2下所有数据备份到远程根目录mongoback目录下，数据库名称是子目录名称
-        r.cmd(['cd __scripts__','python mongo_dump_restore.py dump mongodb://localhost:27017 db1 db2'])
-        
         ```
         
         - 芒果db备份恢复
         ```
+        # 将mongodb数据库1,2下所有数据备份到远程根目录mongoback目录下，数据库名称是子目录名称
+        r.cmd(['source /home/anaconda3/bin/activate server',
+              'python ./__scripts__/mongo_dump_restore.py dump mongodb://localhost:27017 mpy ruihe'
+              ])
+        
+        # 将备份文件拉回本地
+        l.download(c.remote_root+"/mongo_backup")
+        
         # 将mongodb数据库1,2下所有数据恢复
-        r.cmd(['cd __scripts__','python mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
+        r.cmd(['source /home/anaconda3/bin/activate server','python ./__scripts__/mongo_dump_restore.py restore mongodb://localhost:27017 db1 db2'])
         
         ```
         

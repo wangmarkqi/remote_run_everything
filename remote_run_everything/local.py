@@ -14,9 +14,23 @@ class Local:
                 res.append(e.replace("\\", "/"))
         return res
     
-    def upload(self, dir):
+    def file_in_exclude(self, f, exclude):
+        for ex in exclude:
+            if ex in f:
+                return True
+        return False
+    
+    def upload(self, dir, exclude=None):
+        
         r = Remote(self.c)
         files = self.get_local(dir)
+        
+        if exclude is not None:
+            if isinstance(exclude, str):
+                files = [f for f in files if exclude not in f]
+            if isinstance(exclude, list):
+                files = [f for f in files if not self.file_in_exclude(f, exclude)]
+        
         local_len = len(self.c.local_root)
         data = []
         for lf in files:
@@ -44,7 +58,7 @@ class Local:
     
     def upload_scripts(self):
         r = Remote(self.c)
-        cur_dir=os.path.dirname(__file__)
+        cur_dir = os.path.dirname(__file__)
         script_dir = os.path.join(cur_dir, '__scripts__')
         remote_script_dir = self.c.remote_root + "/__scripts__/"
         files = os.listdir(script_dir)

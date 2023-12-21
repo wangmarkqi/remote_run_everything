@@ -5,6 +5,7 @@ import pickle
 class Hist:
     def __init__(self, pick_dir):
         self.pick_dir = pick_dir  # self.c.local_root
+        os.makedirs(self.pick_dir,exist_ok=True)
         self.hist_pickle = os.path.join(pick_dir, "up_hist.pickle").replace("\\", "/")
 
     def get_upload_records(self):

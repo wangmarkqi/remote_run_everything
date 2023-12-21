@@ -2,8 +2,10 @@ MANIFEST.in
 README.md
 setup.py
 remote_run_everything/__init__.py
+remote_run_everything/by_http.py
 remote_run_everything/conf.py
 remote_run_everything/down.py
+remote_run_everything/hist_pickle.py
 remote_run_everything/local.py
 remote_run_everything/remote.py
 remote_run_everything.egg-info/PKG-INFO

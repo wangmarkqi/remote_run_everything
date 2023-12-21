@@ -1,0 +1,15 @@
+.idea/
+.iml
+test/*
+logs/
+*.pickle
+*.exe
+*.rar
+*.zip
+.git/
+dist/
+build/
+cpa_std.egg-info/
+.pytest_cache/
+
+

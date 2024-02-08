@@ -1,5 +1,5 @@
 import os
-from remote_run_everything.remote import Remote
+from remote_run_everything.deploy.remote import Remote
 
 
 class Local:

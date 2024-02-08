@@ -2,7 +2,7 @@ import os
 
 import pysftp
 
-from remote_run_everything.hist_pickle import Hist
+from remote_run_everything.deploy.hist_pickle import Hist
 
 
 class Remote:

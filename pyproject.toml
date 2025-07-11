@@ -1,0 +1,19 @@
+[project]
+name = "remote_run_everything"
+version = "2.0.1"
+authors = [
+  { name="Wang Qi", email="wangmarkqi@gmail.com" },
+]
+description = "Deploy Tools"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = 'https://github.com/wangmarkqi/remote_run_everything'
+Issues = "https://github.com/wangmarkqi/remote_run_everything/issues"

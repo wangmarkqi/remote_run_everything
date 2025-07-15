@@ -25,11 +25,11 @@ class ByHttp:
             t = dic['time']
             sql = f"select * from down where path='{path}' and time='{t}' "
             res = self.con.sql(sql).fetchone()
-            if res is None:
-                print("down", dic)
-                self.con.execute(f"delete from down where path='{path}' ")
-                self.t.pull(self.host, path, self.local, self.remote)
-                add_l.append(dic)
+            if res is not None: continue
+            print("down", dic)
+            self.con.execute(f"delete from down where path='{path}' ")
+            self.t.pull(self.host, path, self.local, self.remote)
+            add_l.append(dic)
         self.con.commit()
         self.crud.insert_many(self.engine, mod, add_l)
 
@@ -42,12 +42,12 @@ class ByHttp:
             t = dic['time']
             sql = f"select * from up where path='{path}' and time='{t}' and host='{self.host}' "
             res = self.con.sql(sql).fetchone()
-            if res is None:
-                print("up==", dic)
-                sql = f"delete from  up where path='{path}' and  host='{self.host}'"
-                self.con.execute(sql).commit()
-                self.t.push(self.host, path, self.local, self.remote)
-                dic['host'] = self.host
-                add_l.append(dic)
+            if res is not None: continue
+            print("up==", dic)
+            sql = f"delete from  up where path='{path}' and  host='{self.host}'"
+            self.con.execute(sql).commit()
+            self.t.push(self.host, path, self.local, self.remote)
+            dic['host'] = self.host
+            add_l.append(dic)
         self.con.commit()
         self.crud.insert_many(self.engine, mod, add_l)

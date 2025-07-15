@@ -1,7 +1,9 @@
-import jinja2, requests
+import jinja2, requests,os
 import pandas as pd
 import socket, os, tomllib
-import base64, cherrypy
+import base64
+from psutil import process_iter
+from signal import SIGTERM  # or SIGKILL
 
 
 class Common:
@@ -101,8 +103,20 @@ class Common:
         zeros = "".join(l)
         return f"{zeros}{d}"
 
+    def kill_by_port(self, port):
+        for proc in process_iter():
+            for conns in proc.net_connections(kind='inet'):
+                if conns.laddr.port == port:
+                    print("kill by port==", port)
+                    proc.send_signal(SIGTERM)
+
+    def list_by_port(self, port):
+        for proc in process_iter():
+            for conns in proc.net_connections(kind='inet'):
+                if conns.laddr.port == port:
+                    print("list port==",conns)
+
 
 if __name__ == '__main__':
     g = Common()
     a = g.prefix_zero(5, 111)
-    print(a)

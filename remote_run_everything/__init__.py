@@ -7,6 +7,7 @@ from remote_run_everything.db.kv_store import KvStore
 from remote_run_everything.db.backup import BackUp
 
 from remote_run_everything.tools.common import Common
+from remote_run_everything.tools.process_manage import ProcessManage
 from remote_run_everything.tools.sqlacodegen_go_struct import Sql2go
 from remote_run_everything.tools.decorators import cache_by_1starg, cache_by_name, cache_by_rkey
 

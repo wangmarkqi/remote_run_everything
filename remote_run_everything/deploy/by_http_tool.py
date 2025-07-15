@@ -1,9 +1,9 @@
 from remote_run_everything.tools.common import Common
+
 import os, glob, arrow, requests
 
 
 class ByHttpTool:
-
     def push(self, host, f, local, remote):
         b64 = Common().readb64(f)
         push_url = f"{host}/dep_writeb64"

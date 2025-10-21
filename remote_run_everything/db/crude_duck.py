@@ -12,6 +12,7 @@ class CrudeDuck:
         con.load_extension("sqlite")
         con.sql(sql)
         return con
+
     def install_pg_ext(self, user, pwd, host, port, dbname):
         sql = f'''ATTACH 'dbname={dbname} user={user} 
             host={host} port={port} connect_timeout=10 password={pwd}'
@@ -31,7 +32,16 @@ class CrudeDuck:
         con.sql(f"USE msqldb;")
         return con
 
-    def scheme(self, con, db, table):
+    def scheme(self, con, db, table, dbtype):
+        # for mysql db== dbname ; for pg db==public for sqlite db=main
+        if dbtype == "mysql":
+            db = db
+        elif dbtype == "sqlite3":
+            db = "main"
+        elif dbtype == "pg":
+            db = "public"
+        else:
+            db = db
         sql = f'''  SELECT column_name, data_type FROM information_schema.columns
     WHERE table_schema = '{db}' AND table_name   = '{table}';
             '''
@@ -83,15 +93,15 @@ class CrudeDuck:
             values = values + f"({s}),"
         return f"({cols})", values
 
-    def insert_many(self, con, db, table, data):
-        sche = self.scheme(con, db, table)
+    def insert_many(self, con, db, table, data, dbtype=""):
+        sche = self.scheme(con, db, table, dbtype)
         cols, values = self.list2sql(data, sche)
         if values == "": return
         sql = f'insert into {table} {cols} values {values}'
         con.execute(sql)
 
-    def insert_one(self, con, db, table, data):
-        sche = self.scheme(con, db, table)
+    def insert_one(self, con, db, table, data, dbtype=""):
+        sche = self.scheme(con, db, table, dbtype)
         cols, values = self.dic2sql(data, sche)
         if values == "": return
         sql = f'insert into {table} {cols} values {values}'
@@ -102,11 +112,11 @@ class CrudeDuck:
         con.execute(sql)
 
     def delete_by_ids(self, con, table, ids):
-        ids=[str(i) for i in ids]
+        ids = [str(i) for i in ids]
         ids = ','.join(ids)
         sql = f"delete from  {table} where id in ({ids})"
         con.execute(sql)
 
     def delete_by_id(self, con, table, id):
-        sql = f"delete from  {table} where id = {id})"
+        sql = f"delete from  {table} where id = {id}"
         con.execute(sql)

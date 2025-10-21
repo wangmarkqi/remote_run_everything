@@ -25,8 +25,7 @@ class Common(Common1):
             data = tomllib.load(f)
         return data
 
-
-    def supervise(self, workdir, pidfile, app):
+    def kill_by_pidfile(self, pidfile):
         if os.path.exists(pidfile):
             with open(pidfile, "rb") as f:
                 pid = f.read().decode()
@@ -36,7 +35,7 @@ class Common(Common1):
         except Exception as e:
             print("kill err==", e)
 
-        print("chdir====", workdir)
+    def start_with_pidfile(self, workdir, pidfile, app):
         os.chdir(workdir)
         process = subprocess.Popen(app, creationflags=subprocess.CREATE_NEW_CONSOLE)
         print("new pid====", process.pid)
@@ -44,6 +43,12 @@ class Common(Common1):
             s = str(process.pid).encode()
             f.write(s)
         sys.exit()
+
+    def supervise(self, pidfile, app, workdir=None):
+        if workdir is None:
+            workdir = os.path.dirname(pidfile)
+        self.kill_by_pidfile(pidfile)
+        self.start_with_pidfile(workdir, pidfile, app)
 
 
 if __name__ == '__main__':

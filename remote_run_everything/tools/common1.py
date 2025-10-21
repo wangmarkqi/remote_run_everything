@@ -1,9 +1,7 @@
 import jinja2, requests, os
 import pandas as pd
-import socket, os, tomllib
 import base64
-import os, signal
-import subprocess, sys
+import os, signal, glob, arrow
 
 
 class Common1:
@@ -86,6 +84,15 @@ class Common1:
         l = ["0"] * (n - len(str(d)))
         zeros = "".join(l)
         return f"{zeros}{d}"
+
+    def clear_by_days(self, root, n):
+        files = glob.glob(f"{root}/*/*.*", recursive=True)
+        now = arrow.now()
+        for f in files:
+            info = os.stat(f).st_mtime
+            dif = now - arrow.get(info)
+            if dif.days > n:
+                os.remove(f)
 
 
 if __name__ == '__main__':

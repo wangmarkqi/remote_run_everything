@@ -41,6 +41,26 @@ def cache_by_1starg(sub, ts):
     return _wrapper
 
 
+def cache_by_nth_arg(sub, index, ts):
+    def _wrapper(f):
+        wraps(f)
+
+        def _wrapped(*args, **kwargs):
+            mykv = KvStore()
+            k = f"{sub}{args[index]}"
+            res = mykv.read_with_ex(k, ts)
+            if res is None:
+                res = f(*args, **kwargs)
+                if res is not None:
+                    mykv.write_with_ex(k, res)
+                return res
+            return res
+
+        return _wrapped
+
+    return _wrapper
+
+
 def cache_by_rkey(ts):
     def _wrapper(f):
         wraps(f)
@@ -59,5 +79,3 @@ def cache_by_rkey(ts):
         return _wrapped
 
     return _wrapper
-
-

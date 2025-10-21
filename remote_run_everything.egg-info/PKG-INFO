@@ -92,3 +92,18 @@ q = {"a": 2,"b":{"$gt":1}}
 print(col.find(q))
 db.drop_db()
 ```
+## 进程管理
+```python
+class ProcessManage:
+    # nosql is instance of Nosql or Nosqlmysql or Nqsqlpg
+    def __init__(self, nosql):
+        self.db = nosql
+        self.col = self.db['pid']
+
+    # 只需要在程序中引入这个函数,启动后会把pid存入数据库,然后有了pid,结合psutil,什么都有了
+    def save_pid(self, name, cmd):
+        dic = {"name": name, "cmd": cmd, "pid": os.getpid()}
+        print("save pid", dic)
+        self.col.insert_one(dic)
+
+```

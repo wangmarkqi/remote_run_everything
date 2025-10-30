@@ -20,7 +20,7 @@ class ByHttpServer:
     @cherrypy.expose
     @cherrypy.tools.json_out()
     @cherrypy.tools.json_in()
-    def readb64(self):
+    def rb64(self):
         try:
             args = cherrypy.request.json
             path = args['path']
@@ -32,7 +32,7 @@ class ByHttpServer:
     @cherrypy.expose
     @cherrypy.tools.json_out()
     @cherrypy.tools.json_in()
-    def dep_writeb64(self):
+    def wb64(self):
         try:
             args = cherrypy.request.json
             path = args['path']

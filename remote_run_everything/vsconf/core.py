@@ -16,3 +16,14 @@ class VsConf:
 
     def git_ignore(self):
         self.wf(f"./.gitignore", git())
+    def vim_rc(self):
+        self.wf("~/.ideavimrc",idea_vim())
+        self.wf("~/.vimrc",idea_vim())
+    def conda_rc(self):
+        self.wf("~/.condarc",conda_rc())
+        if os.name=="nt":
+            self.wf("~/pip/pip.ini",pip_rc())
+        else:
+            self.wf("~/.pip/pip.conf",pip_rc())
+
+

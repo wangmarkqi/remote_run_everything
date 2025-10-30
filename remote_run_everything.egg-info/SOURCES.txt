@@ -27,5 +27,7 @@ remote_run_everything/tools/common.py
 remote_run_everything/tools/common1.py
 remote_run_everything/tools/decorators.py
 remote_run_everything/tools/sqlacodegen_go_struct.py
+remote_run_everything/vsconf/conf_txt.py
+remote_run_everything/vsconf/core.py
 test/test.py
 test/test_server.py

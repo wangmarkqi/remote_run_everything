@@ -6,14 +6,14 @@ import os, glob, arrow, requests
 class ByHttpTool:
     def push(self, host, f, local, remote):
         b64 = Common().readb64(f)
-        push_url = f"{host}/dep_writeb64"
+        push_url = f"{host}/wb64"
         path = self.loc2remote(f, local, remote)
         pay = {"b64": b64, "path": path}
         res = requests.post(push_url, json=pay).json()
         return res
 
     def pull(self, host, f, local, remote):
-        res = requests.post(f"{host}/readb64", json={"path": f}).json()
+        res = requests.post(f"{host}/rb64", json={"path": f}).json()
         b64 = res['data']
         path = self.remote2loc(f, local, remote)
         Common().writeb64(path, b64)

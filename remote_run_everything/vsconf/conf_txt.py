@@ -44,6 +44,8 @@ def launch_rs():
   ]
 } 
     '''
+
+
 def git():
     return '''
 # 首先忽略所有的文件
@@ -64,4 +66,41 @@ def git():
 !*.go
 !*.c
 !*.cpp
+    '''
+
+
+def idea_vim():
+    return '''
+inoremap jj <Esc>
+xnoremap p pgvy
+    '''
+
+
+def conda_rc():
+    return '''
+channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - http://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  msys2: http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  bioconda: http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  menpo: http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch: http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  simpleitk: http://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+    '''
+
+
+def pip_rc():
+    return '''
+[global]
+index-url=https://pypi.tuna.tsinghua.edu.cn/simple
+timeout = 6000
+[install]
+trusted-host=pypi.tuna.tsinghua.edu.cn
+disable-pip-version-check = true
     '''

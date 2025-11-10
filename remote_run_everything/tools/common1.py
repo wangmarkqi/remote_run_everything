@@ -1,7 +1,7 @@
 import jinja2, requests, os
 import pandas as pd
 import base64
-import os, signal, glob, arrow
+import os, signal, glob, arrow, uuid, hashlib
 
 
 class Common1:
@@ -93,6 +93,10 @@ class Common1:
             dif = now - arrow.get(info)
             if dif.days > n:
                 os.remove(f)
+
+    def str2uuid(self, s):
+        hex_string = hashlib.md5(s.encode("UTF-8")).hexdigest()
+        return str(uuid.UUID(hex=hex_string))
 
 
 if __name__ == '__main__':

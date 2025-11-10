@@ -1,6 +1,10 @@
 import os
 from dataclasses import dataclass
 
+'''
+sqlacodegen mssql+pyodbc://sa:a@127.0.0.1:1433/pstarback?driver=ODBC+Driver+17+for+SQL+Server > ./test.py
+'''
+
 
 @dataclass
 class Tab:
@@ -105,5 +109,5 @@ class Sql2go:
 
 
 if __name__ == '__main__':
-    s = SqlRead("./pstarback.py")
+    s = Sql2go("./pstarback.py")
     s.write_go()

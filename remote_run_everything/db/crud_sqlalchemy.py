@@ -1,10 +1,16 @@
 import os, pymysql
 from urllib.parse import quote_plus
-
-from sqlalchemy import create_engine, select, update, and_, insert, delete
+from sqlalchemy.ext.automap import automap_base
+from sqlalchemy import create_engine, select, update, and_, insert, delete, text
 
 
 class Crud:
+    def auto_tab(self, engine):
+        Base = automap_base()
+        Base.prepare(autoload_with=engine)
+        # FinIndi = Base.classes.fin_indi
+        return Base.classes
+
     def sqlite_engine(self, dbpath):
         dir = os.path.dirname(dbpath)
         os.makedirs(dir, exist_ok=True)
@@ -50,10 +56,11 @@ class Crud:
             cols = mod.__dict__['__annotations__'].keys()
         else:
             cols = [i for i in mod.__dict__.keys() if not i.startswith("__")]
+        cols = [i for i in cols if i != '_sa_class_manager']
         return cols
 
     def insert_many(self, engine, mod, l):
-        if len(l)==0:return
+        if len(l) == 0: return
         cols = self.table_columns(mod)
         with engine.connect() as conn:
             for dic in l:
@@ -78,20 +85,53 @@ class Crud:
             conn.execute(stmt)
             conn.commit()
 
+    def update(self, engine, mod, cond, dic):
+        cols = self.table_columns(mod)
+        dic = {k: v for k, v in dic.items() if k in cols}
+        with engine.connect() as conn:
+            stmt = update(mod).where(cond).values(dic)
+            conn.execute(stmt)
+            conn.commit()
+
+    # cond = and_(BdhPrice.date == dic['date'], BdhPrice.goodsName == dic['goodsName'])
+    # cond1 = and_(FinIndi.year == '2020')
+    # cond2 = or_(FinIndi.year == "2021")
+    # cond = or_(cond1, cond2)
     def upsert(self, engine, mod, cond, dic):
-        id = self.exist_id(engine, mod, cond)
-        if id is not None:
-            self.update_by_id(engine, mod, id, dic)
+        exists = self.query_cond(engine, mod, cond)
+        if len(exists) > 0:
+            self.update(engine, mod, cond, dic)
             return
         self.insert_one(engine, mod, dic)
 
     def delete_by_id(self, engine, mod, id):
+        cond = and_(mod.id == id)
         with engine.connect() as conn:
-            stmt = delete(mod).where(mod.id == id)
+            stmt = delete(mod).where(cond)
             conn.execute(stmt)
             conn.commit()
 
     def delete(self, engine, mod, cond):
-        id = self.exist_id(engine, mod, cond)
-        if id is not None:
-            self.delete_by_id(engine, mod, id)
+        with engine.connect() as conn:
+            stmt = delete(mod).where(cond)
+            conn.execute(stmt)
+            conn.commit()
+
+    def query_cond(self, engine, mod, cond):
+        mdic = lambda cols, row: {i[0]: i[1] for i in zip(cols, row)}
+        with engine.connect() as ses:
+            stmt = select(mod).where(cond)
+            rows = ses.execute(stmt)
+            cols = rows.keys()
+            return [mdic(cols, r) for r in rows]
+
+    def query_sql(self, engine, sql):
+        mdic = lambda cols, row: {i[0]: i[1] for i in zip(cols, row)}
+        with engine.connect() as ses:
+            rows = ses.execute(text(sql))
+            cols = rows.keys()
+            return [mdic(cols, r) for r in rows]
+
+    def execute_sql(self, engine, sql):
+        with engine.connect() as ses:
+            return ses.execute(text(sql))

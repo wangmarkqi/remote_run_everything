@@ -5,19 +5,27 @@ import os, glob, arrow, requests
 
 class ByHttpTool:
     def push(self, host, f, local, remote):
-        b64 = Common().readb64(f)
-        push_url = f"{host}/wb64"
-        path = self.loc2remote(f, local, remote)
-        pay = {"b64": b64, "path": path}
-        res = requests.post(push_url, json=pay).json()
-        return res
+        # b64 = Common().readb64(f)
+      # push_url = f"{host}/wb64"
+        # pay = {"b64": b64, "path": path}
+        # res = requests.post(push_url, json=pay).json()
+        rpath = self.loc2remote(f, local, remote)
+        lpath = f
+        return self.upload_file(host, rpath, lpath)
+
 
     def pull(self, host, f, local, remote):
-        res = requests.post(f"{host}/rb64", json={"path": f}).json()
-        b64 = res['data']
-        path = self.remote2loc(f, local, remote)
-        Common().writeb64(path, b64)
-        return path
+        rpath = f
+        lpath = self.remote2loc(f, local, remote)
+        try:       
+            self.download_file(host, rpath, lpath)
+            return "ok"
+        except Exception as e:
+            return str(e)
+        # res = requests.post(f"{host}/rb64", json={"path": f}).json()
+        # b64 = res['data']
+        # path = self.remote2loc(f, local, remote)
+        # Common().writeb64(path, b64)
 
     def all_remote_path(self, host, root, disallow_keys=None):
         url = f"{host}/iterdir"
@@ -62,3 +70,21 @@ class ByHttpTool:
     def remote2loc(self, f, local, remote):
         rela = os.path.relpath(f, remote)
         return f"{local}/{rela}"
+
+    def download_file(self, host, rpath, lpath):
+        ldir = os.path.dirname(lpath)
+        os.makedirs(ldir, exist_ok=True)
+        url = f"{host}/downfile"
+        pay = {"path": rpath}
+        # NOTE the stream=True parameter below
+        with requests.post(url, data=pay, stream=True) as r:
+            r.raise_for_status()
+            with open(lpath, 'wb') as f:
+                for chunk in r.iter_content(chunk_size=8192):
+                    f.write(chunk)
+
+    def upload_file(self, host, rpath, lpath):
+        url = f"{host}/upfile"
+        files = {'files': open(lpath, 'rb')}
+        r = requests.post(url, files=files, data={'path': rpath}).json()
+        return r['status']

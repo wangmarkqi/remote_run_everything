@@ -14,7 +14,6 @@ remote_run_everything/db/crude_duck.py
 remote_run_everything/db/kv_store.py
 remote_run_everything/deploy/__init__.py
 remote_run_everything/deploy/by_http.py
-remote_run_everything/deploy/by_http_server.py
 remote_run_everything/deploy/by_http_tool.py
 remote_run_everything/deploy/record_mod.py
 remote_run_everything/nosql/__init__.py
@@ -30,4 +29,3 @@ remote_run_everything/tools/sqlacodegen_go_struct.py
 remote_run_everything/vsconf/conf_txt.py
 remote_run_everything/vsconf/core.py
 test/test.py
-test/test_server.py

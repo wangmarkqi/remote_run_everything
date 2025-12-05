@@ -48,6 +48,9 @@ class CrudeDuck:
         scheme = {i[0]: i[1] for i in con.sql(sql).fetchall()}
         return scheme
 
+    def quot_comma(self, l):
+        return ','.join([f"'{i}'" for i in l])
+
     def max_id(self, con, table):
         sql = f'select max(id) from {table}'
         a = con.sql(sql).fetchone()

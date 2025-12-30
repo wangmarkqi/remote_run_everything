@@ -1,6 +1,6 @@
 [project]
 name = "remote_run_everything"
-version = "2.0.6"
+version = "2.0.7"
 authors = [
   { name="Wang Qi", email="wangmarkqi@gmail.com" },
 ]
@@ -18,3 +18,6 @@ license-files = ["LICEN[CS]E*"]
 Homepage = 'https://github.com/wangmarkqi/remote_run_everything'
 Issues = "https://github.com/wangmarkqi/remote_run_everything/issues"
 
+[build-system]
+requires = ["setuptools>=40.8.0", "wheel","sqlalchemy","arrow","duckdb","requests","paramiko"]
+build-backend = "setuptools.build_meta"

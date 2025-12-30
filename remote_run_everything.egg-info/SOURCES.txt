@@ -15,6 +15,7 @@ remote_run_everything/db/kv_store.py
 remote_run_everything/deploy/__init__.py
 remote_run_everything/deploy/by_http.py
 remote_run_everything/deploy/by_http_tool.py
+remote_run_everything/deploy/by_sftp.py
 remote_run_everything/deploy/record_mod.py
 remote_run_everything/nosql/__init__.py
 remote_run_everything/nosql/no_sql.py

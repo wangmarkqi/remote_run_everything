@@ -1,4 +1,5 @@
 from remote_run_everything.deploy.by_http import ByHttp
+from remote_run_everything.deploy.by_sftp import BySftp
 
 from remote_run_everything.db.crude_duck import CrudeDuck
 from remote_run_everything.db.crud_sqlalchemy import Crud

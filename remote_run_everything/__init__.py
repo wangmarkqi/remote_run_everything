@@ -14,3 +14,4 @@ from remote_run_everything.nosql.no_sql import Nosql
 from remote_run_everything.nosql.no_sql_pg import NosqlPg
 from remote_run_everything.nosql.no_sql_mysql import NosqlMysql
 from remote_run_everything.vsconf.core import VsConf
+from remote_run_everything.binocular.relative_pos import RelativePos

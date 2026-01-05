@@ -1,7 +1,5 @@
-import jinja2, requests, os
 import pandas as pd
-import base64
-import os, signal, glob, arrow, uuid, hashlib
+import jinja2, os,base64,struct, glob, arrow, uuid, hashlib
 
 
 class Common1:
@@ -97,6 +95,27 @@ class Common1:
     def str2uuid(self, s):
         hex_string = hashlib.md5(s.encode("UTF-8")).hexdigest()
         return str(uuid.UUID(hex=hex_string))
+
+    def ascii2hex(self,l):
+        tu = [i.replace("0x", "") for i in l]
+        tu = [self.prefix_zero(2, i) for i in tu]
+        return  "".join(tu)
+
+    def ascii2int(self,l,big):
+        s=self.ascii2hex(l)
+        b = bytes.fromhex(s)
+        if big:
+            return int.from_bytes(b, byteorder='big')
+        return int.from_bytes(b, byteorder='little')
+
+    def ascii2float(self,l,big):
+        s=self.ascii2hex(l)
+        if big:
+            return struct.unpack('>f', bytes.fromhex(s))[0]
+        return struct.unpack('<f', bytes.fromhex(s))[0]
+
+
+
 
 
 if __name__ == '__main__':

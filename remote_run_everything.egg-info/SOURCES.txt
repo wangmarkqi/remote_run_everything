@@ -7,6 +7,11 @@ remote_run_everything.egg-info/PKG-INFO
 remote_run_everything.egg-info/SOURCES.txt
 remote_run_everything.egg-info/dependency_links.txt
 remote_run_everything.egg-info/top_level.txt
+remote_run_everything/binocular/ba_front.py
+remote_run_everything/binocular/back_tool.py
+remote_run_everything/binocular/cam_tool.py
+remote_run_everything/binocular/front_tool.py
+remote_run_everything/binocular/relative_pos.py
 remote_run_everything/db/__init__.py
 remote_run_everything/db/backup.py
 remote_run_everything/db/crud_sqlalchemy.py
@@ -30,3 +35,4 @@ remote_run_everything/tools/sqlacodegen_go_struct.py
 remote_run_everything/vsconf/conf_txt.py
 remote_run_everything/vsconf/core.py
 test/test.py
+test/test_binocular.py
